@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProductsController;
+use App\Models\Products;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,8 +17,15 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    $products = Products::all();
+    return view('welcome',['products' => $products]);
 });
+Route::get('/cart', function () {
+    return view('cart');
+});
+
+Route::get('/cart/add/{id}', [ProductsController::class, 'addToCart']);
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -29,3 +38,15 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+// public function addCart($id){
+//     $product = Products::find(id);
+//     $cart = session() ->get('car', []);
+//     if(isset($cart[$id])){
+//         $cart[$id]['quanitity']++;}
+//         else{
+//             $cart[$id]=[
+//                 products
+//             ]
+//         }
+//     }
+// }
